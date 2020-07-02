@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 1.纯粹的函数调用
+    var a = 1;
+    function fn(){
+      console.log(this.a)//指向window，输出1
+    }
+    fn()//相当于window.fn()的简写
+
+
+    // 2.作为对象的方法调用
+    function fn(){
+      console.log(this.a)//输出2，this指向obj
+    }
+    var obj = {};
+    obj.a = 2;
+    obj.m = fn;
+    obj.m();
+
+
+    // 3.作为构造函数调用
+    var a = 1;
+    function fn(){
+      this.a = 2;//this指向newObj
+    }
+    var newObj = new fn();
+    console.log(newObj.a);//输出2，
+    console.log(a);//输出1，表示全局变量没有被this.a影响
+
+
+    // 4.apply调用后
+    var x = 0;
+    function test() {
+      console.log(this.x);
+    }
+    var obj = {};
+    obj.x = 1;
+    obj.m = test;
+    obj.m.apply();	//0
+    test.apply(obj);	//1
+    new test();
+    test.apply();	//0
+  </script>
+</body>
+</html>
